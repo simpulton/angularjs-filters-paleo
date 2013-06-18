@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="website">
+<head>
+    <title>AngularJS Filters</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+        .groups {
+            display: inline-block;
+            width: 170px;
+            margin-right: 5px;
+            padding: 5px;
+            background-color: #F9F7ED;
+        }
+
+        .selected {
+            background-color: #C3D9FF;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">AngularJS Filters - Paleo Edition</a>
+    </div>
+</div>
+<div ng-controller="MainCtrl">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputGroups">Paleo Groups</label>
+
+            <div class="controls">
+                <select id="inputGroups" ng-model="myGroup" ng-options="group.label for group in paleoGroups">
+                </select>
+            </div>
+        </div>
+        <div class="control-group" ng-show="myGroup" style="display: none">
+            <label class="control-label" for="inputFoods">Paleo Foods</label>
+
+            <div class="controls">
+                <select id="inputFoods" ng-model="myFood"
+                        ng-options="food.label for food in paleoFoods | filter:{group:myGroup.data}">
+                </select>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="groups" ng-repeat="group in paleoGroups" ng-class="{selected:isSelected(group.data)}">
+        <h2>{{group.label}}</h2>
+        <hr>
+        <p ng-repeat="food in paleoFoods | filter:{group:group.data}">{{food.label}}</p>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script type="text/javascript" src="js/website.js"></script>
+</body>
+</html>
